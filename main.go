@@ -2,32 +2,41 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 )
 
 func main() {
 	args := os.Args
-	var source string
+
+	if len(args) <= 1 {
+		readStandardIn("")
+	}
 
 	if len(args) > 1 {
-		source = args[1]
+		if args[1] == "-" {
+			readStandardIn(args[1])
+		} else {
+			readFileFromUser(args[1])
+		}
 	}
-	fmt.Println(source)
+}
 
-	file, err := os.Open(source)
+func readFileFromUser(path string) {
+	file, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 		return
 	}
-	fmt.Println("File opened")
 
-	data, err := os.ReadFile(source)
+	data, err := os.ReadFile(path)
 	if err != nil {
-		log.Fatal(err)
 		return
 	}
-	fmt.Println("Contents:\n", string(data))
+	fmt.Println(string(data))
 
 	file.Close()
+}
+
+func readStandardIn(source string) {
+	fmt.Println("Let's pipe it")
 }
