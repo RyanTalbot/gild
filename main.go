@@ -18,25 +18,27 @@ func main() {
 		if args[1] == "-" {
 			readStandardIn()
 		} else {
-			readFileFromUser(args[1])
+			readFileFromUser(args[1:])
 		}
 	}
 }
 
-func readFileFromUser(path string) {
-	file, err := os.Open(path)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+func readFileFromUser(paths []string) {
+	for path := range paths {
+		file, err := os.Open(paths[path])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return
-	}
-	fmt.Println(string(data))
+		data, err := os.ReadFile(paths[path])
+		if err != nil {
+			return
+		}
+		fmt.Print(string(data))
 
-	file.Close()
+		file.Close()
+	}
 }
 
 func readStandardIn() {
@@ -46,5 +48,5 @@ func readStandardIn() {
 	}
 	str := string(input)
 
-	fmt.Println(str)
+	fmt.Print(str)
 }
