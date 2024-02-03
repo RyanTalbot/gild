@@ -2,19 +2,21 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
 
 func main() {
 	args := os.Args
+	args_count := len(args)
 
-	if len(args) <= 1 {
-		readStandardIn("")
+	if args_count <= 1 {
+		readStandardIn()
 	}
 
-	if len(args) > 1 {
+	if args_count > 1 {
 		if args[1] == "-" {
-			readStandardIn(args[1])
+			readStandardIn()
 		} else {
 			readFileFromUser(args[1])
 		}
@@ -37,6 +39,12 @@ func readFileFromUser(path string) {
 	file.Close()
 }
 
-func readStandardIn(source string) {
-	fmt.Println("Let's pipe it")
+func readStandardIn() {
+	input, err := io.ReadAll(os.Stdin)
+	if err != nil {
+		fmt.Println(err)
+	}
+	str := string(input)
+
+	fmt.Println(str)
 }
