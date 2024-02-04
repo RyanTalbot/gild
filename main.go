@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -35,7 +36,11 @@ func readFileFromUser(paths []string) {
 		if err != nil {
 			return
 		}
-		fmt.Print(string(data))
+
+		lines := strings.Split(string(data), "\n")
+		for line := range lines {
+			fmt.Println(line+1, lines[line])
+		}
 
 		file.Close()
 	}
