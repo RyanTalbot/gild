@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -37,10 +38,7 @@ func readFileFromUser(paths []string) {
 			return
 		}
 
-		lines := strings.Split(string(data), "\n")
-		for line := range lines {
-			fmt.Println(line+1, lines[line])
-		}
+		showLineCount(strings.Split(string(data), "\n"))
 
 		file.Close()
 	}
@@ -54,4 +52,12 @@ func readStandardIn() {
 	str := string(input)
 
 	fmt.Print(str)
+}
+
+func showLineCount(lines []string) {
+	count := 1
+	for line := range lines {
+		fmt.Printf("|%4s:\t%4s\n", strconv.Itoa(count), lines[line])
+		count++
+	}
 }
